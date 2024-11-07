@@ -39,6 +39,7 @@ class Echo_Cancellation(buffer.Buffering):
         """
         logging.debug("Performing echo cancellation...")
         
+        self.estimate_echo_parameters(speaker_chunk,mic_chunk)
         # Retrasamos la señal del altavoz según τ
         delayed_speaker_chunk = np.roll(speaker_chunk, self.delay_estimation, axis=0)
 

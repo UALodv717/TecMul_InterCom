@@ -13,7 +13,7 @@ import minimal
 import buffer
 import echo_cancellation
 
-class DEFLATE_Raw(echo_cancellation.Echo_Cancellation):
+class DEFLATE_Raw(buffer.Buffering):
     def __init__(self):
         super().__init__()
         logging.info(__doc__)
@@ -35,7 +35,7 @@ class DEFLATE_Raw(echo_cancellation.Echo_Cancellation):
             self.input_exhausted = True
         return chunk_number, chunk
 
-class DEFLATE_Raw__verbose(DEFLATE_Raw, echo_cancellation.Echo_Cancellation__verbose):
+class DEFLATE_Raw__verbose(DEFLATE_Raw, buffer.Buffering__verbose):
     def __init__(self):
         super().__init__()
         self.standard_deviation = np.zeros(minimal.args.number_of_channels) # Standard_Deviation of the chunks_per_cycle chunks.
