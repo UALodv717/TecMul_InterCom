@@ -7,6 +7,8 @@ import logging
 import numpy as np
 import minimal
 import buffer
+import sys
+import time
 from scipy.signal import correlate  # Make sure to import correlate
 
 class Echo_Cancellation(buffer.Buffering):
@@ -21,16 +23,24 @@ class Echo_Cancellation(buffer.Buffering):
         # la señal de altavoz (speaker_chunk) y la señal del micrófono (mic_chunk).
 
         # Usamos correlación cruzada para estimar el delay entre las señales.
-        correlation = correlate(mic_chunk[:, 0], speaker_chunk, mode='full')
-        delay_idx = np.argmax(np.abs(correlation)) - len(speaker_chunk) + 1
-        self.delay_estimation = abs(delay_idx)
+        
+        #logging.info(f"Mic_chunk: {mic_chunk} and speaker_chunk {speaker_chunk}")
+        logging.info(f"Mic_chunk: {len(mic_chunk)} and speaker_chunk {len(speaker_chunk)}")
+        if(len(mic_chunk)==len(speaker_chunk)):
+            correlation = correlate(mic_chunk, speaker_chunk, mode='full')
+            delay_idx = np.argmax(np.abs(correlation)) - len(speaker_chunk) + 1
+            self.delay_estimation = abs(delay_idx)
 
-        # Estimamos α como la relación de energía entre ambas señales.
-        energy_speaker = np.sum(speaker_chunk ** 2)
-        energy_mic = np.sum(mic_chunk ** 2)
-        if energy_speaker > 0:
-            self.alpha_estimation = energy_mic / energy_speaker
-        logging.info(f"Estimation - Delay: {self.delay_estimation}, Alpha: {self.alpha_estimation}")
+            # Estimamos α como la relación de energía entre ambas señales.
+            energy_speaker = np.sum(speaker_chunk ** 2)
+            energy_mic = np.sum(mic_chunk ** 2)
+            if energy_speaker > 0:
+                self.alpha_estimation = energy_mic / energy_speaker
+            logging.info(f"Estimation - Delay: {self.delay_estimation}, Alpha: {self.alpha_estimation}")
+        else:
+            logging.info("no")
+            time.sleep(2)
+        
 
     def cancel_echo(self, mic_chunk, speaker_chunk):
         """
@@ -136,7 +146,11 @@ if __name__ == "__main__":
     minimal.args = minimal.parser.parse_known_args()[0]
 
     if minimal.args.show_stats or minimal.args.show_samples or minimal.args.show_spectrum:
-        intercom = Echo_Cancellation__verbose()
+        try:
+            intercom = Echo_Cancellation__verbose()
+        except Exception as e:
+            print(e)
+            sys.exit(-1)
     else:
         intercom = Echo_Cancellation()
     try:
