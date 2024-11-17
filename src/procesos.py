@@ -71,9 +71,9 @@ class Processing:
         :param level: Level value (string).
         :param output_file: Path to the output text file.
         """
-        script_path = r"C:\Users\blaf2\git\TecMul_InterCom\src\temporal_overlapped_DWT_coding.py"
-        executorpy=r"c:\UNI\3ro\TM\envs\Scripts\python.exe"
-        filesong=r"C:\Users\blaf2\git\TecMul_InterCom\data\AviadorDro_LaZonaFantasma.oga"
+        script_path = r"C:\Users\blaf2\git\TecMul_InterCom\src\temporal_overlapped_DWT_coding.py" #poned vuestra ruta para hacer la llamada al metodo
+        executorpy=r"c:\UNI\3ro\TM\envs\Scripts\python.exe" #Cambiadlo dependiendo de donde tengais el .exe de python del entorno
+        filesong=r"C:\Users\blaf2\git\TecMul_InterCom\data\AviadorDro_LaZonaFantasma.oga" #cambiad ruta. Todavia tengo que ver como poner rutas relativas en python
         try:
             # Command to execute the script with parameters
             cmd = [
