@@ -1,0 +1,8 @@
+Command: c:\UNI\3ro\TM\envs\Scripts\python.exe C:\Users\blaf2\git\TecMul_InterCom\src\temporal_no_overlapped_DWT_coding.py -q 2 -w db4 -e 6 --show_stats -f C:\Users\blaf2\git\TecMul_InterCom\data\AviadorDro_LaZonaFantasma.oga -t 20
+Script executed successfully.
+Output:
+CPU usage average = 3.1895863844256027 %
+Payload sent average = 1047.0500000000002 kilo bits per second
+Payload received average = 1047.0500000000002 kilo bits per second
+Average RMSE (Root Mean Square Error) per sample = [0.00037959 0.00041537]
+Average SNR (Signal Noise Ratio) in decibels = [158.22824464 157.71855169]

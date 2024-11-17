@@ -1,0 +1,172 @@
+Command: c:\UNI\3ro\TM\envs\Scripts\python.exe C:\Users\blaf2\git\TecMul_InterCom\src\temporal_no_overlapped_DWT_coding.py -q 4 -w db3 -e 2 --show_stats -f C:\Users\blaf2\git\TecMul_InterCom\data\AviadorDro_LaZonaFantasma.oga -t 20
+Script executed successfully.
+Output:
+pygame 2.6.0 (SDL 2.28.4, Python 3.11.9)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+
+InterCom parameters:
+
+Namespace(input_device=None, output_device=None, list_devices=False, frames_per_second=44100, frames_per_chunk=1024, listening_port=4444, destination_address='localhost', destination_port=4444, filename='C:\\Users\\blaf2\\git\\TecMul_InterCom\\data\\AviadorDro_LaZonaFantasma.oga', reading_time=20, number_of_channels=2, show_stats=True, show_samples=False, show_spectrum=False, buffering_time=150, minimal_quantization_step_size=4, rate_control_period=1, wavelet_name='db3', levels='2')
+
+Using device:
+
+   0 Asignador de sonido Microsoft - Input, MME (2 in, 0 out)
+>  1 Varios micrófonos (Intel® Smart, MME (4 in, 0 out)
+   2 Asignador de sonido Microsoft - Output, MME (0 in, 2 out)
+<  3 Auriculares (Realtek(R) Audio), MME (0 in, 2 out)
+   4 Altavoces (Realtek(R) Audio), MME (0 in, 2 out)
+   5 Controlador primario de captura de sonido, Windows DirectSound (2 in, 0 out)
+   6 Varios micrófonos (Intel® Smart Sound Technology for Digital Microphones), Windows DirectSound (4 in, 0 out)
+   7 Controlador primario de sonido, Windows DirectSound (0 in, 8 out)
+   8 Auriculares (Realtek(R) Audio), Windows DirectSound (0 in, 2 out)
+   9 Altavoces (Realtek(R) Audio), Windows DirectSound (0 in, 2 out)
+  10 Altavoces (Realtek(R) Audio), Windows WASAPI (0 in, 8 out)
+  11 Auriculares (Realtek(R) Audio), Windows WASAPI (0 in, 8 out)
+  12 Varios micrófonos (Intel® Smart Sound Technology for Digital Microphones), Windows WASAPI (2 in, 0 out)
+  13 Mezcla estéreo (Realtek HD Audio Stereo input), Windows WDM-KS (2 in, 0 out)
+  14 Micrófono (Realtek HD Audio Mic input), Windows WDM-KS (2 in, 0 out)
+  15 Headphones 1 (Realtek HD Audio 2nd output with SST), Windows WDM-KS (0 in, 2 out)
+  16 Headphones 2 (Realtek HD Audio 2nd output with SST), Windows WDM-KS (0 in, 2 out)
+  17 Altavoz de PC (Realtek HD Audio 2nd output with SST), Windows WDM-KS (2 in, 0 out)
+  18 Speakers 1 (Realtek HD Audio output with SST), Windows WDM-KS (0 in, 2 out)
+  19 Speakers 2 (Realtek HD Audio output with SST), Windows WDM-KS (0 in, 2 out)
+  20 Altavoz de PC (Realtek HD Audio output with SST), Windows WDM-KS (2 in, 0 out)
+  21 Varios micrófonos 1 (), Windows WDM-KS (2 in, 0 out)
+  22 Varios micrófonos 2 (), Windows WDM-KS (2 in, 0 out)
+  23 Varios micrófonos 3 (), Windows WDM-KS (4 in, 0 out)
+
+Use CTRL+C to quit
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+=============================================================================================================================================
+|first_received_chunk_number = 1
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-    1      42      42     653     653    1    0 ['  3147', '  3205'] ['11.9', '12.0'] ['10.7', ' 5.8']    4 ['    5', '    5'] [' 85', ' 84']
+[7mAvgs:      42      42     653     653    1    0 ['  3147', '  3205'] ['11.9', '12.0'] ['10.7', ' 5.8']      ['    5', '    5'] [' 85', ' 84'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-    2      44      44     983     983    3    4 ['  3785', '  3881'] ['13.4', '13.6'] ['14.6', ' 8.3']    4 ['    6', '    7'] ['147', '147']
+[7mAvgs:      43      43     818     818    2    2 ['  3466', '  3543'] ['12.7', '12.8'] ['12.6', ' 7.0']      ['    6', '    6'] ['116', '116'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-    3      44      44     955     955    3    3 ['  3924', '  3805'] ['13.5', '13.5'] ['14.1', ' 7.8']    4 ['    7', '    7'] ['154', '154']
+[7mAvgs:      43      43     863     863    2    2 ['  3619', '  3631'] ['12.9', '13.0'] ['13.1', ' 7.3']      ['    6', '    7'] ['129', '128'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/    4      43      43     939     939    0    4 ['  3874', '  3953'] ['13.5', '13.6'] ['13.8', ' 7.8']    4 ['    6', '    7'] ['145', '146']
+[7mAvgs:      43      43     882     882    1    3 ['  3683', '  3711'] ['13.1', '13.1'] ['13.3', ' 7.4']      ['    6', '    7'] ['133', '133'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|    5      43      43     938     938    1    4 ['  3734', '  3984'] ['13.5', '13.6'] ['13.8', ' 7.7']    4 ['    7', '    7'] ['150', '150']
+[7mAvgs:      43      43     893     893    1    3 ['  3693', '  3766'] ['13.2', '13.2'] ['13.4', ' 7.5']      ['    6', '    7'] ['136', '136'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|    6      44      44     941     941    9    5 ['  4167', '  4083'] ['13.6', '13.6'] ['14.1', ' 7.9']    4 ['    7', '    7'] ['154', '154']
+[7mAvgs:      43      43     901     901    3    3 ['  3772', '  3819'] ['13.2', '13.3'] ['13.5', ' 7.5']      ['    6', '    7'] ['139', '139'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|    7      45      45     955     955    4    4 ['  3521', '  3619'] ['13.4', '13.5'] ['14.4', ' 8.0']    4 ['    7', '    7'] ['152', '153']
+[7mAvgs:      43      43     909     909    3    3 ['  3736', '  3790'] ['13.3', '13.3'] ['13.6', ' 7.6']      ['    6', '    7'] ['141', '141'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-    8      45      45     984     984    1    7 ['  3743', '  3969'] ['13.4', '13.6'] ['14.5', ' 8.1']    4 ['    6', '    7'] ['149', '149']
+[7mAvgs:      43      43     918     918    3    4 ['  3737', '  3812'] ['13.3', '13.3'] ['13.7', ' 7.7']      ['    6', '    7'] ['142', '142'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|    9      43      43     948     948    1    2 ['  3785', '  3923'] ['13.5', '13.5'] ['14.0', ' 7.8']    4 ['    6', '    7'] ['147', '147']
+[7mAvgs:      43      43     921     921    2    3 ['  3742', '  3825'] ['13.3', '13.4'] ['13.8', ' 7.7']      ['    6', '    7'] ['143', '143'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|   10      44      44     974     974    0    3 ['  4161', '  4225'] ['13.6', '13.6'] ['14.5', ' 8.2']    4 ['    7', '    7'] ['151', '150']
+[7mAvgs:      43      43     927     927    2    3 ['  3784', '  3865'] ['13.3', '13.4'] ['13.8', ' 7.7']      ['    6', '    7'] ['143', '143'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|   11      44      44     917     917    0    2 ['  3876', '  3745'] ['13.5', '13.5'] ['13.4', ' 7.7']    4 ['    7', '    7'] ['150', '149']
+[7mAvgs:      43      43     926     926    2    3 ['  3793', '  3854'] ['13.3', '13.4'] ['13.8', ' 7.7']      ['    6', '    7'] ['144', '144'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|   12      43      43     947     947    4    4 ['  3914', '  3969'] ['13.5', '13.6'] ['14.0', ' 7.7']    4 ['    7', '    7'] ['151', '151']
+[7mAvgs:      43      43     927     927    2    3 ['  3803', '  3863'] ['13.4', '13.4'] ['13.8', ' 7.7']      ['    7', '    7'] ['145', '144'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/   13      45      45    1042    1042    1    5 ['  4822', '  4279'] ['13.7', '13.7'] ['15.2', ' 9.4']    4 ['    7', '    7'] ['156', '155']
+[7mAvgs:      43      43     936     936    2    3 ['  3881', '  3895'] ['13.4', '13.4'] ['13.9', ' 7.8']      ['    7', '    7'] ['145', '145'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-   14      45      45    1147    1147    3    4 ['  4595', '  4594'] ['13.7', '13.8'] ['16.7', '10.1']    4 ['    7', '    7'] ['155', '154']
+[7mAvgs:      43      43     951     951    2    3 ['  3932', '  3945'] ['13.4', '13.5'] ['14.1', ' 8.0']      ['    7', '    7'] ['146', '146'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-   15      44      44    1138    1138    1    2 ['  4591', '  4485'] ['13.7', '13.7'] ['16.4', ' 9.8']    4 ['    7', '    8'] ['156', '155']
+[7mAvgs:      43      43     964     964    2    3 ['  3976', '  3981'] ['13.4', '13.5'] ['14.3', ' 8.1']      ['    7', '    7'] ['147', '146'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-   16      44      44    1140    1140    1    3 ['  4570', '  4375'] ['13.7', '13.7'] ['16.4', ' 9.9']    4 ['    7', '    8'] ['158', '156']
+[7mAvgs:      43      43     975     975    2    3 ['  4013', '  4006'] ['13.4', '13.5'] ['14.4', ' 8.2']      ['    7', '    7'] ['148', '147'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-   17      44      44    1120    1120    3    3 ['  4848', '  4568'] ['13.8', '13.7'] ['16.3', ' 9.5']    4 ['    7', '    7'] ['151', '150']
+[7mAvgs:      43      43     983     983    2    3 ['  4062', '  4039'] ['13.5', '13.5'] ['14.5', ' 8.3']      ['    7', '    7'] ['148', '147'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-   18      44      44    1104    1104    0    3 ['  4458', '  4463'] ['13.7', '13.7'] ['16.3', ' 9.5']    4 ['    7', '    7'] ['149', '148']
+[7mAvgs:      43      43     990     990    2    3 ['  4084', '  4062'] ['13.5', '13.5'] ['14.6', ' 8.4']      ['    7', '    7'] ['148', '147'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-   19      44      44    1145    1145    3    3 ['  4660', '  4514'] ['13.7', '13.7'] ['16.4', '10.1']    4 ['    7', '    8'] ['159', '157']
+[7mAvgs:      43      43     998     998    2    3 ['  4115', '  4086'] ['13.5', '13.5'] ['14.7', ' 8.5']      ['    7', '    7'] ['148', '148'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-   20      44      44    1108    1108    0    3 ['  4962', '  4687'] ['13.8', '13.8'] ['16.4', ' 9.8']    4 ['    7', '    7'] ['155', '154']
+[7mAvgs:      43      43    1003    1003    2    3 ['  4157', '  4116'] ['13.5', '13.5'] ['14.8', ' 8.5']      ['    7', '    7'] ['149', '148'][m
+=============================================================================================================================================
+cycle  mesgs.  mesgs.    KBPS    KBPS %CPU %CPU   standard deviation          entropy      bits/sample    Q        RMSE/sample        SNR[dB]
+         sent   recv.    sent    recv.   Global          input audio      input audio           output                  10^4 *               
+[5A
+
+
+
+
+
+CPU usage average = 2.207417912747866 %
+Payload sent average = 1003.9 kilo bits per second
+Payload received average = 1003.9 kilo bits per second
+Average RMSE (Root Mean Square Error) per sample = [0.00066428 0.00072766]
+Average SNR (Signal Noise Ratio) in decibels = [148.65539828 148.12512342]
