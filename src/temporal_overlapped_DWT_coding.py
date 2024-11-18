@@ -11,8 +11,8 @@ import logging
 
 from stereo_MST_coding_32 import Stereo_MST_Coding_32 as Stereo_Coding
 
-from temporal_no_overlapped_DWT_coding import Temporal_No_Overlapped_DWT
-from temporal_no_overlapped_DWT_coding import Temporal_No_Overlapped_DWT__verbose
+from temporal_no_overlapped_DWT_coding_16 import Temporal_No_Overlapped_DWT
+from temporal_no_overlapped_DWT_coding_16 import Temporal_No_Overlapped_DWT__verbose
 
 
 class Temporal_Overlapped_DWT(Temporal_No_Overlapped_DWT):
