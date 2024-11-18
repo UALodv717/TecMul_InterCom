@@ -18,9 +18,10 @@ class Processing:
         :param level: Level value (string).
         :param output_file: Path to the output text file.
         """
-        script_path = r"C:\Users\blaf2\git\TecMul_InterCom\src\temporal_no_overlapped_DWT_coding.py"
-        executorpy=r"c:\UNI\3ro\TM\envs\Scripts\python.exe"
-        filesong=r"C:\Users\blaf2\git\TecMul_InterCom\data\AviadorDro_LaZonaFantasma.oga"
+        starting_path= os.getcwd()
+        script_path=os.path.join(starting_path, "src", "temporal_no_overlapped_DWT_coding.py")
+        executorpy=r"c:\UNI\3ro\TM\envs\Scripts\python.exe" #Cambiadlo dependiendo de donde tengais el .exe de python del entorno
+        filesong=os.path.join(starting_path, "data", "AviadorDro_LaZonaFantasma.oga")
         try:
             # Command to execute the script with parameters
             cmd = [
@@ -71,9 +72,10 @@ class Processing:
         :param level: Level value (string).
         :param output_file: Path to the output text file.
         """
-        script_path = r"C:\Users\blaf2\git\TecMul_InterCom\src\temporal_overlapped_DWT_coding.py" #poned vuestra ruta para hacer la llamada al metodo
+        starting_path= os.getcwd()
+        script_path=os.path.join(starting_path, "src", "temporal_overlapped_DWT_coding.py")
         executorpy=r"c:\UNI\3ro\TM\envs\Scripts\python.exe" #Cambiadlo dependiendo de donde tengais el .exe de python del entorno
-        filesong=r"C:\Users\blaf2\git\TecMul_InterCom\data\AviadorDro_LaZonaFantasma.oga" #cambiad ruta. Todavia tengo que ver como poner rutas relativas en python
+        filesong=os.path.join(starting_path, "data", "AviadorDro_LaZonaFantasma.oga")
         try:
             # Command to execute the script with parameters
             cmd = [
@@ -116,16 +118,19 @@ class Processing:
 
 # Example usage:
 if __name__ == "__main__":
+    
     logging.basicConfig(level=logging.INFO)
     logging.info(" The not overlapped uses MST_16. \n")
     sol=input("Do you want no overlapping or overlapping? (y/n) ").lower()
+    absolute_path=os.getcwd()
+    
     # Initialize the processor
     processor = Processing()
 
     # Path to the output log directory
     if(sol=="n"):
-        output_dir = r"C:\Users\blaf2\git\TecMul_InterCom\docs\log_no_overlapped_16"
-        #output_dir = r"C:\Users\blaf2\git\TecMul_InterCom\docs\log_no_overlapped_32"
+        output_dir=os.path.join(absolute_path, "docs", "log_no_overlapped_16")
+        #output_dir=os.path.join(absolute_path, "docs", "log_no_overlapped_32")
     else:
         output_dir = r"C:\Users\blaf2\git\TecMul_InterCom\docs\log_overlapped"
     os.makedirs(output_dir, exist_ok=True)
