@@ -198,17 +198,17 @@ if __name__ == "__main__":
     # Define maximum levels for each wavelet type
     if(sol=="n"):
         max_levels_per_wavelet = {
-            "db1": 2,
-            "db2": 4,
-            "db3": 6,
-            "db4": 8,
+            "db1": 10,
+            "db2": 10,
+            "db3": 10,
+            "db4": 10,
             "db5": 10,
         }
     else:
         max_levels_per_wavelet = {
-            "db1": 2,
-            "db2": 4,
-            "db3": 6,
+            "db1": 9,
+            "db2": 8,
+            "db3": 7,
             "db4": 7,
             "db5": 6,
         }
