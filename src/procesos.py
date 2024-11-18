@@ -177,14 +177,14 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     sol=input("Do you want to overlap the signals? (y/n) ").lower()
     absolute_path=os.getcwd()
-    type_no_overlapping=0
+    user_input = input("Do you want to use MST_16 or MST_32 for no overlap (16/32)? (Default is 16): ")
+    type_no_overlapping = int(user_input) if user_input.strip() else 16
     
     # Initialize the processor
     processor = Processing()
 
     # Path to the output log directory
     if(sol=="n"):
-        type_no_overlapping =int(input("Do you want to use MST_16 or MST_32 for no overlap (16/32)? (Default is 16)")) or 16
         if(type_no_overlapping==16):
             output_dir=os.path.join(absolute_path, "docs", "log_no_overlapped_16")
         else:
