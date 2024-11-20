@@ -171,7 +171,6 @@ class Processing:
         except Exception as e:
             logging.error(f"An error occurred: {e}")
 
-# Example usage:
 if __name__ == "__main__":
     
     logging.basicConfig(level=logging.INFO)

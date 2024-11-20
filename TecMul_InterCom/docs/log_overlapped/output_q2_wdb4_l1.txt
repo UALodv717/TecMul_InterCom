@@ -1,4 +1,0 @@
-Command: c:\UNI\3ro\TM\envs\Scripts\python.exe TecMul_InterCom\src\temporal_overlapped_DWT_coding.py -q 2 -w db4 -e 1 --show_stats -f TecMul_InterCom\data\AviadorDro_LaZonaFantasma.oga -t 20
-Script execution failed.
-Error:
-C:\Users\blaf2\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\python.exe: can't open file 'C:\\Users\\blaf2\\git\\TecMul_InterCom\\TecMul_InterCom\\src\\temporal_overlapped_DWT_coding.py': [Errno 2] No such file or directory
