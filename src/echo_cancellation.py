@@ -8,6 +8,7 @@ import numpy as np
 import minimal
 import buffer
 import sys
+import threading
 import time
 from scipy.signal import correlate  # Make sure to import correlate
 
@@ -19,44 +20,44 @@ class Echo_Cancellation(buffer.Buffering):
         self.i=0
         logging.info(__doc__)
 
-    def estimate_echo_parameters(self, speaker_chunk, mic_chunk):
-        # Estima los parámetros de eco (τ y α) usando correlación cruzada entre
-        # la señal de altavoz (speaker_chunk) y la señal del micrófono (mic_chunk).
+    # def estimate_echo_parameters(self, speaker_chunk, mic_chunk):
+    #     # Estima los parámetros de eco (τ y α) usando correlación cruzada entre
+    #     # la señal de altavoz (speaker_chunk) y la señal del micrófono (mic_chunk).
 
-        # Usamos correlación cruzada para estimar el delay entre las señales.
-        if(len(mic_chunk)!=len(speaker_chunk)):
-            speaker_chunk=speaker_chunk.reshape((1024,2))
-        if(len(mic_chunk)==len(speaker_chunk)):
-            correlation = correlate(mic_chunk, speaker_chunk, mode='full')
-            delay_idx = np.argmax(np.abs(correlation)) - len(speaker_chunk) + 1
+    #     # Usamos correlación cruzada para estimar el delay entre las señales.
+    #     if(len(mic_chunk)!=len(speaker_chunk)):
+    #         speaker_chunk=speaker_chunk.reshape((1024,2))
+    #     if(len(mic_chunk)==len(speaker_chunk)):
+    #         correlation = correlate(mic_chunk, speaker_chunk, mode='full')
+    #         delay_idx = np.argmax(np.abs(correlation)) - len(speaker_chunk) + 1
             
-            energy_speaker = np.sum(speaker_chunk ** 2)
-            energy_mic = np.sum(mic_chunk ** 2)
-            if energy_speaker > 0:
-                self.alpha_estimation = energy_mic / energy_speaker
-            #logging.info(f"Estimation - Delay: {self.delay_estimation}, Alpha: {self.alpha_estimation}")
-        else:
-            logging.info("no")
-            time.sleep(2)
+    #         energy_speaker = np.sum(speaker_chunk ** 2)
+    #         energy_mic = np.sum(mic_chunk ** 2)
+    #         if energy_speaker > 0:
+    #             self.alpha_estimation = energy_mic / energy_speaker
+    #         #logging.info(f"Estimation - Delay: {self.delay_estimation}, Alpha: {self.alpha_estimation}")
+    #     else:
+    #         logging.info("no")
+    #         time.sleep(2)
         
 
-    def cancel_echo(self, mic_chunk, speaker_chunk):
-        # Now proceed with echo parameter estimation and echo cancellation
-        self.estimate_echo_parameters(speaker_chunk, mic_chunk)
+    # def cancel_echo(self, mic_chunk, speaker_chunk):
+    #     # Now proceed with echo parameter estimation and echo cancellation
+    #     self.estimate_echo_parameters(speaker_chunk, mic_chunk)
 
-        # Create the delayed speaker chunk
-        delayed_speaker_chunk = np.roll(speaker_chunk, self.delay_estimation, axis=0)
+    #     # Create the delayed speaker chunk
+    #     delayed_speaker_chunk = np.roll(speaker_chunk, self.delay_estimation, axis=0)
 
-        # Calculate estimated echo
-        estimated_echo = self.alpha_estimation * delayed_speaker_chunk
-        estimated_echo = estimated_echo.reshape((1024, 2))
-        # Subtract the echo from the mic signal to get the clean output
-        clean_chunk = mic_chunk - estimated_echo
+    #     # Calculate estimated echo
+    #     estimated_echo = self.alpha_estimation * delayed_speaker_chunk
+    #     estimated_echo = estimated_echo.reshape((1024, 2))
+    #     # Subtract the echo from the mic signal to get the clean output
+    #     clean_chunk = mic_chunk - estimated_echo
 
-        # Apply clipping to avoid any distortion in the output
-        clean_chunk = np.clip(clean_chunk, -1.0, 1.0)
+    #     # Apply clipping to avoid any distortion in the output
+    #     clean_chunk = np.clip(clean_chunk, -1.0, 1.0)
 
-        return clean_chunk
+    #     return clean_chunk
 
 
     def _record_IO_and_play(self, ADC, DAC, frames, time, status):
@@ -81,7 +82,7 @@ class Echo_Cancellation(buffer.Buffering):
         chunk_from_buffer = self.unbuffer_next_chunk()
         
         # Realizar la cancelación de eco si tenemos señales válidas
-        clean_chunk = self.cancel_echo(ADC, chunk_from_buffer)
+        # clean_chunk = self.cancel_echo(ADC, chunk_from_buffer)
          
         # Reproducir el chunk limpio en el DAC
         self.play_chunk(DAC, chunk_from_buffer)
@@ -92,7 +93,7 @@ class Echo_Cancellation(buffer.Buffering):
         packed_chunk = self.pack(self.chunk_number, read_chunk)
         self.send(packed_chunk)
         chunk = self.unbuffer_next_chunk()
-        clean_chunk = self.cancel_echo(DAC, chunk)
+        # clean_chunk = self.cancel_echo(DAC, chunk)
         self.play_chunk(DAC, chunk)
         return read_chunk
         

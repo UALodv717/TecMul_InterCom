@@ -6,7 +6,7 @@ import sys
 class Processing:
     def __init__(self):
         self.quant = ["1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8182"]
-        self.wavelets = ["db1", "db2", "db3", "db4", "db5"]
+        self.wavelets = ["db1", "db2", "db3", "db4", "db5", "sym4","sym5","bior3.3","bior3.5"]
         self.levels = ["1", "2", "3", "4", "5", "6", "7", "8","9","10"]
     
     def call_temporal_script_no_overlapping_16(self, quant, wavelet, level, output_file):
@@ -219,7 +219,8 @@ if __name__ == "__main__":
             for level in processor.levels:
                 if int(level) > max_level:
                     continue 
-                
+                if (wavelet=="syms4" or wavelet=="syms5" or wavelet=="bior3.3" or wavelet=="bior3.5") and (int(level)<4 or int(level)>5):
+                    continue
                 output_file = os.path.join(
                     output_dir, f"output_w{wavelet}_l{level}_q{quant}.txt"
                 )
