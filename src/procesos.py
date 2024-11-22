@@ -219,7 +219,7 @@ if __name__ == "__main__":
             for level in processor.levels:
                 if int(level) > max_level:
                     continue 
-                if (wavelet=="syms4" or wavelet=="syms5" or wavelet=="bior3.3" or wavelet=="bior3.5") and (int(level)<4 or int(level)>5):
+                if (wavelet=="sym4" or wavelet=="sym5" or wavelet=="bior3.3" or wavelet=="bior3.5") and (int(level)<4 or int(level)>5):
                     continue
                 output_file = os.path.join(
                     output_dir, f"output_w{wavelet}_l{level}_q{quant}.txt"
