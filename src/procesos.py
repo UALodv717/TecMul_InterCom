@@ -187,17 +187,23 @@ if __name__ == "__main__":
     # Iterate through combinations with constraint on levels
     
     for wavelet in processor.wavelets:
+        plt.figure()
+        plt.title(f"RD Tradeoff for Wavelet: {wavelet}")
+        plt.xlabel("R (Estimated Bits per Sample) [Entropy]")
+        plt.ylabel("D (Root Mean Square Error)")
+        plt.grid(True)
+
+        max_level = max_levels_per_wavelet.get(wavelet, 2)  # Default to 2 if undefined
+    
         for level in processor.levels:
-            max_level = max_levels_per_wavelet.get(wavelet, 2)  # Default to 2 if undefined
-            points = []  # Initialize points once per wavelet and level
-        
             if int(level) > max_level:
                 continue
         
-            if (wavelet in ["sym4", "sym5", "bior3.3", "bior3.5"]) and (int(level) < 4 or int(level) > 5):
+            if wavelet in ["sym4", "sym5", "bior3.3", "bior3.5"] and (int(level) < 4 or int(level) > 5):
                 continue
         
             logging.info(f"Processing wavelet={wavelet}, level={level}")
+            points = []  # Initialize points for this level
         
             for quant in processor.quant:
                 logging.info(f"Processing quant={quant}, wavelet={wavelet}, level={level}")
@@ -233,14 +239,11 @@ if __name__ == "__main__":
                     else:
                         logging.warning(f"Missing data for quant={quant}. Skipping this point.")
         
-            # Plot the RD curve for the current wavelet and level
+            # Plot the RD curve for the current level if points are available
             if points:
                 points = sorted(points)  # Optional: Sort points by payload for better visualization
-                plt.figure()
-                plt.title(f"RD Tradeoff (Wavelet: {wavelet}, Level: {level})")
-                plt.xlabel("R (Estimated Bits per Sample) [Entropy]")
-                plt.ylabel("D (Root Mean Square Error)")
-                plt.plot(*zip(*points), marker="o", linestyle="-", color="b", label=f"{wavelet}, Level {level}")
-                plt.legend()
-                plt.grid(True)
-                plt.show()
+                plt.plot(*zip(*points), marker="o", linestyle="-", label=f"Level {level}")
+    
+        # Add legend and display the plot
+        plt.legend(title="Levels")
+        plt.show()
