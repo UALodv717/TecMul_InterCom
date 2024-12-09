@@ -62,7 +62,7 @@ class Echo_Cancellation(buffer.Buffering):
         else:
             attenuation = 1
 
-        return delay_index, attenuation
+        return 0.5, 1.2
 
 
     def _record_IO_and_play(self, ADC, DAC, frames, time, status):
