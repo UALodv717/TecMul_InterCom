@@ -70,26 +70,50 @@ class Echo_Cancellation(buffer.Buffering):
         Extend the method _record_IO_and_play to include echo cancellation.
         """
         if self.i == 0:
-            DAC[:] = self.send_pulse() 
-            packed_pulse = self.pack(0, DAC)
+            # Send and play the pulse
+            DAC[:] = self.send_pulse()
+            packed_pulse = self.pack(self.chunk_number, DAC)
             self.send(packed_pulse)  # Send the pulse to the buffer
-            print(f"Pulse sent: {DAC[:15]}")  # Debugging: show the pulse
             self.i += 1
             return
-        
+
+        # Regular processing
         self.chunk_number = (self.chunk_number + 1) % self.CHUNK_NUMBERS
         packed_chunk = self.pack(self.chunk_number, ADC)
         self.send(packed_chunk)
+
+        # Retrieve chunk from buffer
         chunk_from_buffer = self.unbuffer_next_chunk()
 
         if self.pulse_sent is not None:
+            # Estimate delay and attenuation
             self.delay_estimation, self.alpha_estimation = self.estimate_delay_and_attenuation(
                 self.pulse_sent, chunk_from_buffer
             )
             print(f"Estimated delay (d): {self.delay_estimation}, attenuation (a): {self.alpha_estimation}")
-            self.pulse_sent = None 
-        
+            self.pulse_sent = None  # Clear the pulse after estimation
+
+        # Echo cancellation: remove estimated echo
+        if self.delay_estimation >= 0 and self.alpha_estimation > 0:
+            echo_length = len(self.pulse_sent)
+            start_idx = self.delay_estimation
+            end_idx = start_idx + echo_length
+
+            if start_idx >= 0 and end_idx <= len(chunk_from_buffer):
+                # Extract the portion of the received signal that contains the echo
+                echo_portion = chunk_from_buffer[start_idx:end_idx]
+
+                # Estimate the echo using the sent signal
+                estimated_echo = self.alpha_estimation * self.pulse_sent[:len(echo_portion)]
+
+                # Subtract the estimated echo from the received signal
+                chunk_from_buffer[start_idx:end_idx] -= estimated_echo
+
+                print(f"Echo canceled in range: {start_idx} to {end_idx}")
+
+        # Play the processed chunk
         self.play_chunk(DAC, chunk_from_buffer)
+
     
     def _read_IO_and_play(self, DAC, frames, time, status):
         self.chunk_number = (self.chunk_number + 1) % self.CHUNK_NUMBERS
