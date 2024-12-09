@@ -16,8 +16,8 @@ import matplotlib.pyplot as plt
 class Echo_Cancellation(buffer.Buffering):
     def __init__(self):
         super().__init__()
-        self.delay_estimation = 0  # d: estimated delay of the echo
-        self.alpha_estimation = 1  # a: estimated attenuation factor
+        self.delay_estimation = 0.5  # d: estimated delay of the echo
+        self.alpha_estimation = 1.2  # a: estimated attenuation factor
         self.i = 0
         self.pulse_sent = None
         logging.info(__doc__)
@@ -27,7 +27,7 @@ class Echo_Cancellation(buffer.Buffering):
         Generate and send a single pulse signal at the start of execution.
         """
         pulse = np.zeros((1024, 2), int)
-        pulse[8:12, :] = 32000
+        pulse[8:20, :] = 32000
         self.pulse_sent = pulse
         print("Pulse sent:", pulse)
         return pulse
@@ -70,11 +70,13 @@ class Echo_Cancellation(buffer.Buffering):
         Extend the method _record_IO_and_play to include echo cancellation.
         """
         if self.i == 0:
-            pulse = self.send_pulse()
-            DAC[:] = pulse
+            DAC[:] = self.send_pulse() 
+            packed_pulse = self.pack(0, DAC)
+            self.send(packed_pulse)  # Send the pulse to the buffer
+            print(f"Pulse sent: {DAC[:15]}")  # Debugging: show the pulse
             self.i += 1
             return
-
+        
         self.chunk_number = (self.chunk_number + 1) % self.CHUNK_NUMBERS
         packed_chunk = self.pack(self.chunk_number, ADC)
         self.send(packed_chunk)
@@ -86,7 +88,6 @@ class Echo_Cancellation(buffer.Buffering):
             )
             print(f"Estimated delay (d): {self.delay_estimation}, attenuation (a): {self.alpha_estimation}")
             self.pulse_sent = None 
-
         
         self.play_chunk(DAC, chunk_from_buffer)
     
