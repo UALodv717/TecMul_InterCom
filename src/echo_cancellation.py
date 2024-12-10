@@ -72,18 +72,16 @@ class Echo_Cancellation(buffer.Buffering):
         if self.i == 0:
             # Send and play the pulse
             DAC[:] = self.send_pulse()
-            packed_pulse = self.pack(self.chunk_number, DAC)
+            packed_pulse = self.pack(0, DAC)
             self.send(packed_pulse)  # Send the pulse to the buffer
             self.i += 1
             return
-
+        chunk_from_buffer = self.unbuffer_next_chunk()
+        
         # Regular processing
         self.chunk_number = (self.chunk_number + 1) % self.CHUNK_NUMBERS
         packed_chunk = self.pack(self.chunk_number, ADC)
         self.send(packed_chunk)
-
-        # Retrieve chunk from buffer
-        chunk_from_buffer = self.unbuffer_next_chunk()
 
         if self.pulse_sent is not None:
             # Estimate delay and attenuation
