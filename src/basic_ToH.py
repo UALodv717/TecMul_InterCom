@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # PYTHON_ARGCOMPLETE_OK
 
-''' Considering the threshold of human hearing. '''
+'''Considering the threshold of human hearing. '''
 
 import numpy as np
 import math
@@ -11,7 +11,7 @@ import logging
 from temporal_overlapped_DWT_coding import Temporal_Overlapped_DWT
 from temporal_overlapped_DWT_coding import Temporal_Overlapped_DWT__verbose
 
-class Treshold(Temporal_Overlapped_DWT):
+class Threshold(Temporal_Overlapped_DWT):
 
     def __init__(self):
         super().__init__()
@@ -50,8 +50,8 @@ class Treshold(Temporal_Overlapped_DWT):
         for i in range(len(average_SPLs)):
             quantization_steps.append( round((average_SPLs[i]-min_SPL)/(max_SPL-min_SPL)*(max_q-1)+1) )
 
+        logging.info(f"Quantization step sizes: {quantization_steps}")
         return quantization_steps
-
 
     def analyze(self, chunk):
         chunk_DWT = super().analyze(chunk)
@@ -74,7 +74,7 @@ class Treshold(Temporal_Overlapped_DWT):
         return super().synthesize(chunk_DWT)
         
 
-class Treshold__verbose(Treshold, Temporal_Overlapped_DWT__verbose):
+class Threshold__verbose(Threshold, Temporal_Overlapped_DWT__verbose):
     pass
 
 try:
@@ -90,9 +90,9 @@ if __name__ == "__main__":
         logging.warning("argcomplete not working :-/")
     minimal.args = minimal.parser.parse_known_args()[0]
     if minimal.args.show_stats or minimal.args.show_samples:
-        intercom = Treshold__verbose()
+        intercom = Threshold__verbose()
     else:
-        intercom = Treshold()
+        intercom = Threshold()
     try:
         intercom.run()
     except KeyboardInterrupt:
