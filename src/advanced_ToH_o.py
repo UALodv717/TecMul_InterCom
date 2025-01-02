@@ -116,7 +116,7 @@ def create_ToH_from_data(freq_volume):
 
 
 
-class advancedThreshold(Treshold):
+class advancedThreshold(Threshold):
     def __init__(self):
         ''' Create a advancedThreshold object'''
         super().__init__()
@@ -160,7 +160,7 @@ class advancedThreshold(Treshold):
 
 
 
-class advancedThreshold_verbose(Treshold__verbose, Treshold):
+class advancedThreshold_verbose(Threshold__verbose, Threshold):
          def __init__():
             ''' Create a advancedThreshold verbose object'''
             super().__init__()
