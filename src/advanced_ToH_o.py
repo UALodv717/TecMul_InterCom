@@ -19,8 +19,8 @@ import threading
 from scipy.interpolate import interp1d
 
 
-from basic_ToH import Treshold
-from basic_ToH import Treshold__verbose
+from basic_ToH import Threshold
+from basic_ToH import Threshold__verbose
 
 #A new arg to select if we want to create a ToH curve
 minimal.parser.add_argument("-ctoh","--createToH", action="store_true", help="Allow you to create your custom ToH curve")
