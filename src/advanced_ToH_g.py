@@ -27,9 +27,6 @@ minimal.parser.add_argument("-ctoh","--createToH", action="store_true", help="Al
 #A new arg to select if we want to create a ToH curve 
 minimal.parser.add_argument("-ctohc","--createToHCumulative", action="store_true", help="Allow you to create your custom cumulative ToH curve")
 
-minimal.parser.add_argument("--compareToHCurves", action="store_true", help="Compare standard and custom ToH curves")
-
-
 def create_ToH_curve_data(freq_steps=1000, volume_steps=0.1):
     '''Stars a user-dependent process to obtain a frequency dictionary - volume (volume is a value between 0.0 and 1.0)'''
 
@@ -145,42 +142,81 @@ class advancedThreshold(Threshold):
         quantization_steps = [
             round((spl - min_SPL) / (max_SPL - min_SPL) * (max_q - 1) + 1) for spl in average_SPLs
         ]
+
+        logging.info(f"Quantization step sizes: {quantization_steps}")
         return quantization_steps
+
+# Hasta aquí parece que funciona (PARECE)
+
+# ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
+# Función para obtener las frecuencias centrales de Wavelet Packets
+def wavelet_packet_frequencies(levels, f_min=20, f_max=22050):
+    """
+    Genera las frecuencias centrales para cada sub-banda de Wavelet Packets.
+    """
+    num_subbands = 2 ** levels
+    edges = np.linspace(f_min, f_max, num_subbands + 1)
+    centers = [(edges[i] + edges[i + 1]) / 2 for i in range(len(edges) - 1)]
+    return centers
+
+# Función para obtener las frecuencias centrales de DWT
+def dwt_frequencies(levels, f_min=20, f_max=22050):
+    """
+    Genera las frecuencias aproximadas para cada subbanda en la DWT,
+    basándose en el nivel de la descomposición.
+    """
+    freqs = []
+    for level in range(1, levels + 1):
+        # Las frecuencias centrales estimadas para cada subbanda
+        # se calculan tomando el rango de frecuencias dividido entre el número de subbandas
+        freq = f_max / (2 ** level)
+        freqs.append(freq)
+    return freqs
+
+# Función para calcular la curva ToH
+def toh_curve(frequencies):
+    """
+    Calcula los valores de Threshold of Hearing (ToH) en dB para las frecuencias.
+    """
+    f = np.array(frequencies)
+    toh = 3.64 * (f / 1000) ** -0.8 - 6.5 * np.exp(-0.6 * (f / 1000 - 3.3) ** 2) + 0.001 * (f / 1000) ** 4
+    return toh
+
+# Función para graficar ToH de Wavelet Packets y DWT en la misma gráfica
+def plot_comparison(levels=6, f_min=20, f_max=22050):
+    """
+    Grafica las curvas ToH para Wavelet Packets y DWT en el mismo gráfico.
+    """
+    # Calcular las frecuencias centrales y los valores de ToH para Wavelet Packets
+    wp_centers = wavelet_packet_frequencies(levels, f_min, f_max)
+    wp_toh = toh_curve(wp_centers)
+
+    # Calcular las frecuencias centrales y los valores de ToH para DWT
+    dwt_centers = dwt_frequencies(levels, f_min, f_max)
+    dwt_toh = toh_curve(dwt_centers)
     
-    def compare_ToH_curves(self):
-        f_dwt = np.linspace(20, 22050, 2 ** self.dwt_levels + 1)  # Frecuencias para DWT
-        nodes = self.wavelet_packet.get_level(self.dwt_levels, order="natural")  # Nodos de Wavelet Packets
+    # Crear el gráfico
+    plt.figure(figsize=(10, 6))
 
-        # Recalculamos las frecuencias de Wavelet Packets basándonos en las subbandas
-        # Cada nodo tiene un rango de frecuencias asociado, que podemos obtener.
-        f_wp = []
-        for node in nodes:
-            # Extraemos el rango de frecuencias de cada subbanda (usando los nodos)
-            f_start = node.low_freq
-            f_end = node.high_freq
-            f_wp.append(np.mean([f_start, f_end]))  # Promediamos el rango de frecuencias para cada subbanda
+    # Graficar ToH para Wavelet Packets
+    plt.plot(wp_centers, wp_toh, label="Wavelet Packets ToH", marker='x', linestyle='-')
 
-        # Ahora calculamos los SPL para DWT y Wavelet Packets
+    # Graficar ToH para DWT
+    plt.plot(dwt_centers, dwt_toh, label="DWT ToH", marker='o', linestyle='-')
 
-        # Calcular SPL para DWT
-        spl_dwt = []
-        for i in range(len(f_dwt) - 1):
-            spl_dwt.append(np.mean([freq_to_db(f) for f in np.linspace(f_dwt[i], f_dwt[i + 1], 100)]))
+    # Personalizar el gráfico
+    plt.xscale('log')
+    plt.xlabel("Frecuencia (Hz)")
+    plt.ylabel("Nivel SPL (dB)")
+    plt.title("Comparación de Curvas ToH: Wavelet Packets vs DWT")
+    plt.legend()
+    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+    
+    # Mostrar el gráfico
+    plt.show()
+# ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
 
-        # Calcular SPL para Wavelet Packets
-        spl_wp = []
-        for i in range(len(f_wp) - 1):
-            spl_wp.append(np.mean([freq_to_db(f) for f in np.linspace(f_wp[i], f_wp[i + 1], 100)]))
-
-        # Graficar las curvas de comparación
-        plt.plot(f_dwt[:-1], spl_dwt, label="DWT ToH")
-        plt.plot(f_wp[:-1], spl_wp, label="Wavelet Packets ToH", linestyle='--')
-        plt.xlabel("Frequency (Hz)")
-        plt.ylabel("SPL (dB)")
-        plt.legend()
-        plt.title("Comparison of ToH Curves")
-        plt.show()
-
+# --------------------------------------------------------------------------------------------------------------------------------------
 
 class advancedThreshold_verbose(Threshold__verbose, Threshold):
          def __init__():
@@ -207,6 +243,14 @@ if __name__ == "__main__":
     # Parsear argumentos
     minimal.args = minimal.parser.parse_known_args()[0]
 
+    # ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
+
+     # Llamar a la función de visualización para comparar los resultados de DWT y Wavelet Packets
+    print("Generando gráfico de la curva ToH para Wavelet Packets...")
+    plot_comparison(levels=6)  # Llama a la función de visualización
+
+    # ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
+
     # Crear instancia de Threshold avanzado
     if minimal.args.show_stats or minimal.args.show_samples:
         intercom = advancedThreshold_verbose()
@@ -216,10 +260,6 @@ if __name__ == "__main__":
     # Crear curvas ToH personalizadas si se especifica
     if minimal.args.createToH or minimal.args.createToHCumulative:
         print(create_ToH_curve_data())
-
-    # Comparar curvas ToH si se solicita
-    if minimal.args.compareToHCurves:
-        intercom.compare_ToH_curves()
 
     try:
         intercom.run()  # Ejecutar el programa principal

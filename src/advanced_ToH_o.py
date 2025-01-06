@@ -155,7 +155,8 @@ class advancedThreshold(Threshold):
         max_SPL = np.max(average_SPLs)
         for i in range(len(average_SPLs)):
             quantization_steps.append( round((average_SPLs[i]-min_SPL)/(max_SPL-min_SPL)*(max_q-1)+1) )
-
+            
+        print(quantization_steps)
         return quantization_steps
 
 
