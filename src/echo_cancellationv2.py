@@ -5,7 +5,7 @@ import buffer
 import sys
 import threading
 import time
-from scipy.signal import correlate
+from scipy.signal import correlate, butter, lfilter
 
 class EchoCancellation(buffer.Buffering):
     def __init__(self):
@@ -20,13 +20,24 @@ class EchoCancellation(buffer.Buffering):
 
     def send_pulse(self):
         """
-        Generate and send a single pulse signal at the start of execution.
+        Generate and send a sinusoidal pulse signal.
         """
         pulse = np.zeros((1024, 2), int)
-        pulse[8:20, :] = 32000
+        t = np.arange(0, 12)  # Duration of pulse in samples
+        sine_wave = (32000 * np.sin(2 * np.pi * t / len(t))).astype(int)
+        pulse[8:20, :] = sine_wave[:, None]
         self.pulse_sent = pulse
-        print("Pulse sent:", pulse) 
+        print("Pulse sent:", pulse)
         return pulse
+
+    def lowpass_filter(self, data, cutoff, fs, order=5):
+        """
+        Apply a lowpass filter to reduce noise.
+        """
+        nyquist = 0.5 * fs
+        normal_cutoff = cutoff / nyquist
+        b, a = butter(order, normal_cutoff, btype='low', analog=False)
+        return lfilter(b, a, data)
 
     def estimate_delay_and_attenuation(self, sent_signal, received_signal):
         """
@@ -36,21 +47,48 @@ class EchoCancellation(buffer.Buffering):
         if sent_signal is None or received_signal is None:
             return
 
-        combined_signal = np.concatenate((sent_signal, received_signal), axis=0)
+        # Ensure received_signal has the same shape as sent_signal
+        if received_signal.ndim == 1:
+            received_signal = np.expand_dims(received_signal, axis=-1)  # Convert to 2D: (N,) -> (N, 1)
 
-        correlation = correlate(combined_signal[:, 0], sent_signal[:, 0], mode='full')
-        delay_index = np.argmax(correlation) - (len(sent_signal) - 1)
+        if received_signal.shape[1] < sent_signal.shape[1]:
+            # If received_signal has fewer channels, repeat the channel
+            received_signal = np.tile(received_signal, (1, sent_signal.shape[1]))
+
+        if received_signal.shape[1] > sent_signal.shape[1]:
+            # If received_signal has more channels, truncate extra channels
+            received_signal = received_signal[:, :sent_signal.shape[1]]
+
+        # Apply lowpass filter to reduce noise
+        for col in range(received_signal.shape[1]):
+            received_signal[:, col] = self.lowpass_filter(received_signal[:, col], cutoff=1000, fs=48000)
+
+        try:
+            delays = []
+            correlations = []
+
+            for col in range(sent_signal.shape[1]):
+                correlation = correlate(received_signal[:, col], sent_signal[:, col], mode='full')
+                delay_index = np.argmax(correlation) - (len(sent_signal) - 1)
+                delays.append(max(0, delay_index))  # Ensure non-negative delay
+                correlations.append(correlation)
+
+            average_delay = int(np.mean(delays))
+
+        except ValueError as e:
+            print("Error in signal concatenation:", e)
+            return
 
         if np.max(np.abs(sent_signal)) > 1e-6:
-            attenuation = np.max(np.abs(received_signal)) / (np.max(np.abs(sent_signal)) + 1e-6)
+            attenuation = min(1, np.max(np.abs(received_signal)) / (np.max(np.abs(sent_signal)) + 1e-6))
         else:
             attenuation = 1
 
         with self.lock:
-            self.delay_estimation = delay_index
+            self.delay_estimation = average_delay
             self.alpha_estimation = attenuation
 
-        print(f"Estimated delay: {delay_index}, Estimated attenuation: {attenuation}")
+        print(f"Estimated delay: {average_delay}, Estimated attenuation: {attenuation}")
 
     def start_estimation_thread(self, sent_signal, received_signal):
         """
