@@ -114,7 +114,7 @@ def create_ToH_from_data(freq_volume):
     decibels = 20 * np.log10(volumes)        
     freq_to_db = interp1d(freqs, decibels, kind='cubic', fill_value="extrapolate")
 
-# AQUÍ EMPEZÓ A MODIFICAR GIO, NO FUNCIONA :)
+# AQUÍ EMPEZÓ A MODIFICAR GIO, NO SÉ SI FUNCIONA :)
 
 class advancedThreshold(Threshold):
     def __init__(self):
@@ -149,6 +149,9 @@ class advancedThreshold(Threshold):
         logging.info(f"Quantization step sizes: {self.quantization_steps}")
         return self.quantization_steps
     
+
+    # A partir de aquí no he modificado, posibles cambios requeridos
+
     def analyze(self, chunk):
         chunk_DWT = super().analyze(chunk)
 
