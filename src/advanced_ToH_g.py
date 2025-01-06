@@ -139,82 +139,17 @@ class advancedThreshold(Threshold):
             average_SPLs.append(mean_SPL)
 
         min_SPL, max_SPL = np.min(average_SPLs), np.max(average_SPLs)
-        quantization_steps = [
-            round((spl - min_SPL) / (max_SPL - min_SPL) * (max_q - 1) + 1) for spl in average_SPLs
+    
+        # Usar una lista para los pasos de cuantización
+        self.quantization_steps = [
+            round((spl - min_SPL) / (max_SPL - min_SPL) * (max_q - 1) + 1) 
+            for spl in average_SPLs
         ]
 
-        logging.info(f"Quantization step sizes: {quantization_steps}")
-        return quantization_steps
+        logging.info(f"Quantization step sizes: {self.quantization_steps}")
+        return self.quantization_steps
 
-# Hasta aquí parece que funciona (PARECE)
-
-# ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
-# Función para obtener las frecuencias centrales de Wavelet Packets
-def wavelet_packet_frequencies(levels, f_min=20, f_max=22050):
-    """
-    Genera las frecuencias centrales para cada sub-banda de Wavelet Packets.
-    """
-    num_subbands = 2 ** levels
-    edges = np.linspace(f_min, f_max, num_subbands + 1)
-    centers = [(edges[i] + edges[i + 1]) / 2 for i in range(len(edges) - 1)]
-    return centers
-
-# Función para obtener las frecuencias centrales de DWT
-def dwt_frequencies(levels, f_min=20, f_max=22050):
-    """
-    Genera las frecuencias aproximadas para cada subbanda en la DWT,
-    basándose en el nivel de la descomposición.
-    """
-    freqs = []
-    for level in range(1, levels + 1):
-        # Las frecuencias centrales estimadas para cada subbanda
-        # se calculan tomando el rango de frecuencias dividido entre el número de subbandas
-        freq = f_max / (2 ** level)
-        freqs.append(freq)
-    return freqs
-
-# Función para calcular la curva ToH
-def toh_curve(frequencies):
-    """
-    Calcula los valores de Threshold of Hearing (ToH) en dB para las frecuencias.
-    """
-    f = np.array(frequencies)
-    toh = 3.64 * (f / 1000) ** -0.8 - 6.5 * np.exp(-0.6 * (f / 1000 - 3.3) ** 2) + 0.001 * (f / 1000) ** 4
-    return toh
-
-# Función para graficar ToH de Wavelet Packets y DWT en la misma gráfica
-def plot_comparison(levels=6, f_min=20, f_max=22050):
-    """
-    Grafica las curvas ToH para Wavelet Packets y DWT en el mismo gráfico.
-    """
-    # Calcular las frecuencias centrales y los valores de ToH para Wavelet Packets
-    wp_centers = wavelet_packet_frequencies(levels, f_min, f_max)
-    wp_toh = toh_curve(wp_centers)
-
-    # Calcular las frecuencias centrales y los valores de ToH para DWT
-    dwt_centers = dwt_frequencies(levels, f_min, f_max)
-    dwt_toh = toh_curve(dwt_centers)
-    
-    # Crear el gráfico
-    plt.figure(figsize=(10, 6))
-
-    # Graficar ToH para Wavelet Packets
-    plt.plot(wp_centers, wp_toh, label="Wavelet Packets ToH", marker='x', linestyle='-')
-
-    # Graficar ToH para DWT
-    plt.plot(dwt_centers, dwt_toh, label="DWT ToH", marker='o', linestyle='-')
-
-    # Personalizar el gráfico
-    plt.xscale('log')
-    plt.xlabel("Frecuencia (Hz)")
-    plt.ylabel("Nivel SPL (dB)")
-    plt.title("Comparación de Curvas ToH: Wavelet Packets vs DWT")
-    plt.legend()
-    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-    
-    # Mostrar el gráfico
-    plt.show()
-# ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
+   
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -242,14 +177,6 @@ if __name__ == "__main__":
     
     # Parsear argumentos
     minimal.args = minimal.parser.parse_known_args()[0]
-
-    # ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
-
-     # Llamar a la función de visualización para comparar los resultados de DWT y Wavelet Packets
-    print("Generando gráfico de la curva ToH para Wavelet Packets...")
-    plot_comparison(levels=6)  # Llama a la función de visualización
-
-    # ------------------------- BLOQUE DE PRUEBAS DE GIO --------------------------------
 
     # Crear instancia de Threshold avanzado
     if minimal.args.show_stats or minimal.args.show_samples:
