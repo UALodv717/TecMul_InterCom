@@ -143,7 +143,7 @@ class advancedThreshold(Threshold):
             round((spl - min_SPL) / (max_SPL - min_SPL) * (max_q - 1) + 1) for spl in average_SPLs
         ]
 
-        print(quantization_steps)
+        logging.info(f"Quantization step sizes: {quantization_steps}")
         return quantization_steps
 
 # Hasta aquí parece que funciona (PARECE)
