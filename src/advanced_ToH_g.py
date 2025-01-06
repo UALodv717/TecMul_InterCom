@@ -148,6 +148,26 @@ class advancedThreshold(Threshold):
 
         logging.info(f"Quantization step sizes: {self.quantization_steps}")
         return self.quantization_steps
+    
+    def analyze(self, chunk):
+        chunk_DWT = super().analyze(chunk)
+
+        # Quantize the subbands
+        chunk_DWT[self.slices[0][0]] = (chunk_DWT[self.slices[0][0]] / self.quantization_steps[0]).astype(np.int32)
+        for i in range (self.dwt_levels):
+            chunk_DWT[self.slices[i+1]['d'][0]] = (chunk_DWT[self.slices[i+1]['d'][0]] / self.quantization_steps[i+1]).astype(np.int32)
+
+        return chunk_DWT
+
+
+    def synthesize(self, chunk_DWT):
+
+        # Dequantize the subbands
+        chunk_DWT[self.slices[0][0]] = chunk_DWT[self.slices[0][0]] * self.quantization_steps[0]
+        for i in range (self.dwt_levels):
+            chunk_DWT[self.slices[i+1]['d'][0]] = chunk_DWT[self.slices[i+1]['d'][0]] * self.quantization_steps[i+1]
+
+        return super().synthesize(chunk_DWT)
 
    
 
