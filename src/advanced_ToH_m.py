@@ -38,16 +38,13 @@ class advancedThreshold(Threshold):
         logging.info(f"analysis filters's length = {self.wavelet.dec_len}")
         logging.info(f"synthesis filters's length = {self.wavelet.rec_len}")
         logging.info(f"DWT levels = {self.dwt_levels}")
-
-    def init(self):
-        ''' Initialize advancedThreshold object with Wavelet Packets configuration.'''
-        super().init()
         logging.info(__doc__)
         logging.info("Instanciada la clase advancedThreshold.")
         logging.info(f"wavelet name = {minimal.args.wavelet_name if hasattr(minimal.args, 'wavelet_name') else 'default wavelet'}")
         self.wavelet_name = minimal.args.wavelet_name if hasattr(minimal.args, 'wavelet_name') else 'db3'
         self.dwt_levels = 6
         self.wavelet_packet = pywt.WaveletPacket(data=None, wavelet=self.wavelet_name, mode='symmetric', maxlevel=self.dwt_levels)
+
 
     def freq_to_db(self, f):
         '''By default, use ThO standard, if create_ToH_from_data is called this function is overwritten.'''
@@ -194,8 +191,13 @@ if __name__ == "__main__":
             intercom = advancedThreshold()
 
         intercom.run()
+    except OSError as e:
+        logging.error(f"Socket error: {e}. Ensure the port is not in use.")
     except KeyboardInterrupt:
         minimal.parser.exit("\nSIGINT received")
     finally:
         if intercom is not None:
-            intercom.print_final_averages()
+            try:
+                intercom.print_final_averages()
+            except Exception as e:
+                logging.error(f"Error during final averages: {e}")

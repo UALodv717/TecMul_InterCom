@@ -85,7 +85,7 @@ class EchoCancellation(buffer.Buffering):
             attenuation = 1
 
         with self.lock:
-            self.delay_estimation = average_delay
+            self.delay_estimation = average_delay + minimal.args.buffering_time
             self.alpha_estimation = attenuation
 
 
