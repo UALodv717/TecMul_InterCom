@@ -11,10 +11,10 @@ import pywt
 import threading
 import time
 
-from basic_ToH import Treshold
-from basic_ToH import Treshold__verbose
+from basic_ToH import Threshold
+from basic_ToH import Threshold__verbose
 
-class Threshold(Treshold):
+class Threshold(Threshold):
     def __init__(self):
         super.__init__()
         logging.info(__doc__)
@@ -87,7 +87,7 @@ class Threshold(Treshold):
             chunk_DWT[self.slices[i+1]['d'][0]] = chunk_DWT[self.slices[i+1]['d'][0]] * self.quantization_steps[i+1]
 
         return super().synthesize(chunk_DWT)
-class Threshold_verbose(Treshold__verbose, Threshold):
+class Threshold_verbose(Threshold__verbose, Threshold):
     pass
 
 try:
@@ -103,9 +103,9 @@ if __name__ == "__main__":
         logging.warning("argcomplete not working :-/")
     minimal.args = minimal.parser.parse_known_args()[0]
     if minimal.args.show_stats or minimal.args.show_samples:
-        intercom = Treshold__verbose()
+        intercom = Threshold__verbose()
     else:
-        intercom = Treshold()
+        intercom = Threshold()
     try:
         intercom.run()
     except KeyboardInterrupt:
